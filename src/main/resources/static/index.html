@@ -1,0 +1,52 @@
+<h2>Student CRUD</h2>
+
+<input id="name" placeholder="Name">
+<input id="address" placeholder="Address">
+
+<button onclick="add()">Add</button>
+
+<ul id="list"></ul>
+
+<script>
+    function load() {
+        fetch("http://localhost:8084/view_list")
+            .then(r => r.json())
+            .then(data => {
+                let html = "";
+                for (let s of data) {
+                    html += "<li>" + s.id + " - " + s.name + " - " + s.address +
+                        " <button onclick='upd(" + s.id + ")'>Update</button>" +
+                        " <button onclick='del(" + s.id + ")'>Delete</button></li>";
+                }
+                document.getElementById("list").innerHTML = html;
+            });
+    }
+
+    function add() {
+        fetch("http://localhost:8084/create_student", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                name: document.getElementById("name").value,
+                address: document.getElementById("address").value,
+            })
+        }).then(load);
+    }
+
+    function upd(id) {
+        fetch("http://localhost:8084/update_student/" + id, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                name: prompt("New name?"),
+                address: prompt("New address?"),
+            })
+        }).then(load);
+    }
+
+    function del(id) {
+        fetch("http://localhost:8084/delete_student/" + id, {method: "DELETE"}).then(load);
+    }
+
+    load();
+</script>

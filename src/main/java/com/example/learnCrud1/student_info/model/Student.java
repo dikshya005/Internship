@@ -16,6 +16,5 @@ public class Student {
     String name;
     @Column(nullable = false)
     String address;
-    @Column(nullable = false)
-    String password;
+
 }
