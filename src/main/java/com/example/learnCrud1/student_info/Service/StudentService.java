@@ -31,7 +31,6 @@ public class StudentService {
         Student save=new Student();
         save.setName(request.getName());
         save.setAddress(request.getAddress());
-        save.setPassword(request.getPassword());
         try {
             save = studentRepository.save(save);
         } catch (Exception e) {
